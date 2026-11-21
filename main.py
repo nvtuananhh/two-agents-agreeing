@@ -23,7 +23,16 @@ POEM = "\n".join(
 OUT = Path("/output/entry.txt")
 
 
+def validate(text: str) -> None:
+    """The gate requires 1-280 Unicode code points, not only whitespace."""
+    if not text.strip():
+        raise ValueError("entry must not be only whitespace")
+    if not 1 <= len(text) <= 280:
+        raise ValueError(f"entry is {len(text)} characters, must be 1-280")
+
+
 def main() -> None:
+    validate(POEM)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(POEM, encoding="utf-8")
 
